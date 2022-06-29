@@ -1,6 +1,6 @@
 const { Schema, Types } = require('mongoose');
-const { User } = require('.');
 
+// User schema 
 const UserSchema = new Schema(
 
     {
@@ -33,10 +33,12 @@ const UserSchema = new Schema(
     }
 );
 
+// Get users friend count 
 UserSchema.virtual("friendCount").get(function() {
     return this.friends.length;
 });
 
+// Creating instance of user via the userschema
 const User = model("User", UserSchema);
 
 module.exports = User;
