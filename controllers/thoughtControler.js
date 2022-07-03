@@ -1,5 +1,6 @@
 // Import Model
 const {Thoughts, Users} = require("../models");
+const { updateThought } = require("../^/untitled/ts-nul-authority/Untitled-2");
 
 // Controlers for Thoughts
 const thoughtController = {
@@ -52,6 +53,26 @@ const thoughtController = {
         })
         .catch(err => res.json(err));
     },
+
+    // UPDATE Thoughts
+    updateThought({ params, body }, res) {
+        Thoughts.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
+        .populate({
+            path: "reactions",
+            select: "-__v"
+        })
+        .select("-___v")
+        .then(dbThoughtData => {
+            if(!dbThoughtData) {
+                res.status(404).json("Error, thought not found");
+                return;
+            }
+            res.json(dbThoughtData);
+        })
+        .catch(err => res.status(400).json(err));
+    },
 };
+
+
 
 module.exports = thoughtController;
