@@ -33,6 +33,7 @@ const ThoughtsSchema = new Schema(
 // schema for interactions on site
 const InteractionSchema = new Schema(
     {
+        // custom id 
         interactionId: {
             type: Schema.Types.ObjectId,
             default: ()=> new Types.ObjectId()

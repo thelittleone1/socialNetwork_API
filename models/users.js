@@ -1,4 +1,4 @@
-const { Schema, Types } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 // User schema 
 const UserSchema = new Schema(
@@ -14,7 +14,7 @@ const UserSchema = new Schema(
             type: String,
             unique: true,
             required: true,
-            trim: true,
+            // trim: true,
         },
         thoughts: [{
             type: Schema.Types.ObjectId,
@@ -27,6 +27,7 @@ const UserSchema = new Schema(
     },
     {
         toJSON: {
+            getters: true,
             getters: true,
         },
         id: false,
