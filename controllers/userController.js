@@ -38,4 +38,35 @@ const userController = {
         })
         .catch(err => res.status(400).json(err));
     },
+
+    // POST (Update) User
+    updateUser({params, body}, res) {
+        Users.findOneAndUpdate({_id: params.id}, body, {new: true, runValidators: true})
+        .then(dbUserData => {
+            if(!dbUserData) {
+                res.status(400).json("No User found with that ID!");
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.status(400).json(err));
+    },
+
+    // DELETE User
+    deleteUser({params}, res) {
+        Users.findOneAndDelete({_id: params.id})
+        .then(dbUserData => {
+            if(!dbUserData) {
+                res.status(400).json("No User found with that ID!");
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.status(400).json(err))
+    },
+
+    // PUT (ADD) Friend
+    addAFriend({params}, res) {
+        
+    },
 };
