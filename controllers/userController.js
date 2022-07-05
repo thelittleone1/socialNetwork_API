@@ -1,5 +1,5 @@
 // Require User Model
-const { Users } = require("../models");
+const { Users, User } = require("../models");
 
 // Controllers for Users
 const userController = {
@@ -67,6 +67,33 @@ const userController = {
 
     // PUT (ADD) Friend
     addAFriend({params}, res) {
-        
+        Users.findOneAndUpdate({_id: params.id}, {$push: { friends: params.friendID}}, {new: true})
+        .populate({path: "friends", select: "-__v"})
+        .select("-__v")
+        .then(dbUserData => {
+            if(!dbUserData) {
+                res.status(400).json("No User found with that ID!");
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.status(400).json(err))
+    },
+
+    // PUT (DELETE) Friend
+    deleteAFriend({params}, res) {
+        Users.findOneAndUpdate({_id: params.id}, {$pull: {friends: params.friendID}}, {new: true})
+        .populate({path: "friends", select: "-__v"})
+        .select("-__v")
+        .then(dbUserData => {
+            if(!dbUserData) {
+                res.status(400).json("No User found with that ID!");
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.status(400).json(err));
     },
 };
+
+module.exports = userController;
