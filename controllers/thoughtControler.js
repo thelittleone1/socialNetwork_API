@@ -1,6 +1,5 @@
 // Import Model
 const {Thoughts, Users} = require("../models");
-const { updateThought } = require("../^/untitled/ts-nul-authority/Untitled-2");
 
 // Controlers for Thoughts
 const thoughtController = {
