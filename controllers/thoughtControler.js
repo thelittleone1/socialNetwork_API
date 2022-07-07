@@ -37,10 +37,11 @@ const thoughtController = {
 
     // Create (PUT) Thought
     createThought({ params, body }, res) {
+        console.log(body);
         Thoughts.create(body)
         .then(({ _id }) => {
             return Users.findOneAndUpdate(
-                { _id: params.userId }, { $push: { thoughts: _id }}, { new: true, runValidators: true }
+                { _id: params.userID }, { $push: { thoughts: _id }}, { new: true, runValidators: true }
             );
         })
         .then(dbThoughtData => {
@@ -73,7 +74,7 @@ const thoughtController = {
 
     // DELETE Thoughts
     deleteThought({ params }, res) {
-        Thoughts.findOneAndUpdate({ _id: params.id })
+        Thoughts.findOneAndRemove({ _id: params.id })
         .then(dbThoughtData => {
             if (!dbThoughtData) {
                 res.status(404).json("Error, thought not found");
@@ -85,9 +86,10 @@ const thoughtController = {
     },
 
     // CREATE reactions
-    addReaction({ params: body}, res) {
+    addReaction({ params, body}, res) {
+        console.log(params);
         Thoughts.findOneAndUpdate(
-            { _id: params.thoughtId },
+            { _id: params.thoughtID },
             { $push: { reactions: body }}, 
             { new: true, runValidators: true }
         )
@@ -108,9 +110,10 @@ const thoughtController = {
 
     // DELETE Reaction
     deleteReaction({ params }, res) {
+        console.log(res);
         Thoughts.findOneAndUpdate(
-            { _id: params.thoughtId },
-            { $pull: { reactions: { reactionId: params.reactionId }}},
+            { _id: params.thoughtID },
+            { $pull: { reactions: { interactionId: params.reactionID }}},
             { new: true }
         )
         .then(dbThoughtData => {
