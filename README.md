@@ -25,7 +25,11 @@ node app.js or npm start
 ## Technologies Used
 
 Mongo DB
+
 Insomica
+
 Express
+
 node.js
+
 JavaScript
